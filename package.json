@@ -7,7 +7,7 @@
     "start": "node dist/server.js",
     "dev:start": "nodemon --exec babel-node src/server.js",
     "build": "babel ./src -d dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha src/test/sample.spec.js"
   },
   "repository": {
     "type": "git",
@@ -28,9 +28,12 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.0",
     "nodemon": "^1.19.2"
   }
 }
