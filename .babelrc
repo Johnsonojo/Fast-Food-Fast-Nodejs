@@ -1,3 +1,17 @@
+// {
+//   "presets": ["@babel/preset-env"]
+// }
 {
-  "presets": ["@babel/preset-env"]
+  "presets": [
+    "stage-2",
+    [
+      "env",
+      {
+        "targets": {
+          "node": "10.16.3"
+        }
+      }
+    ]
+  ],
+  "plugins": ["transform-object-rest-spread", "add-module-exports"]
 }

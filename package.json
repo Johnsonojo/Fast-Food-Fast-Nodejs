@@ -1,39 +1,73 @@
 {
   "name": "Fast-Food-Fast-Nodejs",
   "version": "1.0.0",
-  "description": "",
+  "description": "A food booking and delivery service for a restaurant",
   "main": "dist/server.js",
   "scripts": {
+    "clean": "rimraf dist",
+    "dev": "npm-run-all --parallel clean build migrate",
     "start": "node dist/server.js",
-    "dev:start": "nodemon --exec babel-node src/server.js",
+    "dev:start": "npm run dev && cross-env NODE_ENV=development npm run start",
+    "dev:start:watch": "nodemon --watch src --exec 'npm run dev:start'",
     "build": "babel ./src -d dist",
-    "test": "mocha src/test/sample.spec.js"
+    "migrate": "sequelize db:migrate",
+    "migrate:test": "sequelize db:migrate:undo:all && npm run migrate",
+    "postinstall": "npm run dev",
+    "test-env": "cross-env NODE_ENV=test",
+    "test": "npm run test-env npm run migrate:test && npm run test-report",
+    "test-report": "npm run test-env nyc --reporter=html --reporter=text mocha",
+    "test:watch": "nodemon --watch test --exec npm run test-env npm test",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "env": "sync-dotenv"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run env"
+    }
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Johnsonojo/Fast-Food-Fast-Nodejs.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Johnson Ojo",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Johnsonojo/Fast-Food-Fast-Nodejs/issues"
   },
   "homepage": "https://github.com/Johnsonojo/Fast-Food-Fast-Nodejs#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "babel-register": "^6.26.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.18.1"
   },
   "@babel/cli": "^7.5.5",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "coveralls": "^3.0.6",
+    "cross-env": "^5.2.1",
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.5",
     "mocha": "^6.2.0",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^14.1.1",
+    "rimraf": "^3.0.0",
+    "sequelize-cli": "^5.5.1",
+    "sync-dotenv": "^2.2.1"
   }
 }
