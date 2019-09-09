@@ -15,8 +15,8 @@
     "postinstall": "npm run dev",
     "test-env": "cross-env NODE_ENV=test",
     "test": "npm run test-env npm run migrate:test && npm run test-report",
-    "test-report": "npm run test-env nyc --reporter=html --reporter=text mocha",
-    "test:watch": "nodemon --watch test --exec npm run test-env npm test",
+    "test-report": "npm run test-env nyc --reporter=html --reporter=text mocha src/test",
+    "test:watch": "nodemon --watch src/test --exec npm run test-env npm test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "env": "sync-dotenv"
   },
