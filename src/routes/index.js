@@ -1,3 +1,4 @@
 import userRouter from './users';
+import emailRouter from './email';
 
-export default userRouter;
+export { userRouter, emailRouter };
