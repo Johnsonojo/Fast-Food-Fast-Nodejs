@@ -2,17 +2,4 @@
   "presets": ["@babel/preset-env"],
   "plugins": ["@babel/plugin-transform-async-to-generator"]
 }
-// {
-//   "presets": [
-//     "stage-2",
-//     [
-//       "env",
-//       {
-//         "targets": {
-//           "node": "10.16.3"
-//         }
-//       }
-//     ]
-//   ],
-//   "plugins": ["transform-object-rest-spread", "add-module-exports"]
-// }
+

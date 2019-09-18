@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { compareSync } from 'bcryptjs';
 import models from '../db/models';
 import emailSender from '../helpers/emailSender';
 import errorResponse from '../helpers/errorResponse';
@@ -55,8 +56,58 @@ class UserController {
       response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
     }
   }
+
+  /**
+   * @description - This method handles the login of users
+   * @static
+   * @param {object} request - Request sent to the router
+   * @param {object} response - Response sent from the controller
+   * @returns {object} - object representing response
+   * @memberof UserController
+   */
+
+  static async loginUser(request, response) {
+    const { email, password, rememberMe } = request.body;
+    try {
+      const userFound = await User.findOne({
+        where: { email }
+      });
+      if (!userFound) {
+        return response.status(404).json({
+          status: 'Fail',
+          message: 'User not found'
+        });
+      }
+      const checkPassword = compareSync(password, userFound.password);
+
+      if (!checkPassword) {
+        return response.status(401).json({
+          status: 'Fail',
+          message: 'Incorrect login credentials'
+        });
+      }
+      const { id, username, role } = userFound;
+      const payload = { id, username, role };
+      const time = {};
+      time.expiresIn = (!rememberMe) ? '24h' : '240h';
+      try {
+        const token = generateToken(payload, time);
+        response.status(200).json({
+          message: `Welcome back ${userFound.username}`,
+          token
+        });
+      } catch (error) {
+        response.status(500).send(errorResponse(['Token could not be generated for user']));
+      }
+    } catch (error) {
+      response.status(500).json({
+        status: 'Fail',
+        error: error.message
+      });
+    }
+  }
 }
 
-const { signupUser } = UserController;
+const { signupUser, loginUser } = UserController;
 
-export default signupUser;
+export { signupUser, loginUser };
