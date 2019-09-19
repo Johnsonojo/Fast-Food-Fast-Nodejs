@@ -3,7 +3,7 @@ import { compareSync } from 'bcryptjs';
 import models from '../db/models';
 import emailSender from '../helpers/emailSender';
 import errorResponse from '../helpers/errorResponse';
-import generateToken from '../middlewares/authenticator';
+import { generateToken } from '../middlewares/authenticator';
 
 const { User } = models;
 

@@ -1,4 +1,5 @@
 import models from '../db/models';
+import errorResponse from '../helpers/errorResponse';
 
 const { Menu } = models;
 
@@ -32,8 +33,34 @@ class MenuController {
       allMenu
     });
   }
+
+  /**
+   * @description - This method handles the posting a menu
+   * @static
+   * @param {object} request - Request sent to the router
+   * @param {object} response - Response sent from the controller
+   * @returns {object} - object representing response
+   * @memberof MenuController
+   */
+  static async addOneMenu(request, response) {
+    const { foodName, foodPrice, foodImage } = request.body;
+    try {
+      const newMenu = await Menu.create({
+        foodName,
+        foodPrice,
+        foodImage
+      });
+      return response.status(201).json({
+        status: 'success',
+        message: 'Menu added successfully',
+        newMenu
+      });
+    } catch ({ errors: validationErrors }) {
+      response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
+    }
+  }
 }
 
-const { getAllMenu } = MenuController;
+const { getAllMenu, addOneMenu } = MenuController;
 
-export default getAllMenu;
+export { getAllMenu, addOneMenu };
