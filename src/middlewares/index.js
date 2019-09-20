@@ -3,6 +3,9 @@ import morgan from 'morgan';
 import cors from 'cors';
 import expressSession from 'express-session';
 import dotenv from 'dotenv';
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocument from '../docs/swagger';
+
 
 dotenv.config();
 
@@ -16,4 +19,5 @@ module.exports = (app) => {
     saveUninitialized: false
   }));
   app.use(morgan('dev'));
+  app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 };
