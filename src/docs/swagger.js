@@ -315,6 +315,29 @@ export default {
         }
       },
     },
+    '/menu/:menuId': {
+      get: {
+        tags: ['menus'],
+        summary: 'Get one menu',
+        description: '',
+        parameters: [
+          {
+            name: 'Content-Type',
+            in: 'header',
+            required: true,
+            type: 'string',
+            description: ''
+          }
+        ],
+        produces: ['application/json'],
+        responses: {
+          200: {
+            description: '',
+            headers: {}
+          }
+        }
+      },
+    }
   },
   definitions: {
     users: {

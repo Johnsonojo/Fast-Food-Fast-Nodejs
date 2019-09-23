@@ -18,7 +18,9 @@ class MenuController {
    */
 
   static async getAllMenu(request, response) {
-    const allMenu = await Menu.findAll();
+    const allMenu = await Menu.findAll({
+      attributes: ['id', 'foodName', 'foodPrice', 'foodImage']
+    });
     const menuCount = allMenu.count;
 
     if (menuCount < 1) {
@@ -33,6 +35,35 @@ class MenuController {
       allMenu
     });
   }
+
+  /**
+   * @description - This method handles the getting of a menu
+   * @static
+   * @param {object} request - Request sent to the router
+   * @param {object} response - Response sent from the controller
+   * @returns {object} - object representing response
+   * @memberof MenuController
+   */
+
+  static async getOneMenu(request, response) {
+    const { menuId } = request.params;
+    const foundMenu = await Menu.findOne({
+      where: { id: menuId },
+      attributes: ['id', 'foodName', 'foodPrice', 'foodImage']
+    });
+    if (foundMenu) {
+      return response.status(200).json({
+        status: 'Success',
+        message: 'Menu fetched successfully',
+        foundMenu
+      });
+    }
+    return response.status(404).json({
+      statue: 'Fail',
+      message: 'Menu not found',
+    });
+  }
+
 
   /**
    * @description - This method handles the posting a menu
@@ -61,6 +92,6 @@ class MenuController {
   }
 }
 
-const { getAllMenu, addOneMenu } = MenuController;
+const { getAllMenu, addOneMenu, getOneMenu } = MenuController;
 
-export { getAllMenu, addOneMenu };
+export { getAllMenu, addOneMenu, getOneMenu };
