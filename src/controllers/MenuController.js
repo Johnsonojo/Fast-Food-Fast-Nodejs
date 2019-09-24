@@ -90,8 +90,41 @@ class MenuController {
       response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
     }
   }
+
+  /**
+   * @description - This method handles the deleting of a menu
+   * @static
+   * @param {object} request - Request sent to the router
+   * @param {object} response - Response sent from the controller
+   * @returns {object} - object representing response
+   * @memberof MenuController
+  */
+  static async deleteOneMenu(request, response) {
+    const { menuId } = request.params;
+    try {
+      const menuToDelete = await Menu.destroy({
+        where: { id: menuId }
+      });
+      if (menuToDelete) {
+        return response.status(200).json({
+          status: 'Success',
+          message: 'Menu successfully deleted'
+        });
+      }
+      return response.status(404).json({
+        status: 'Fail',
+        message: 'Menu not found'
+      });
+    } catch ({ errors: validationErrors }) {
+      response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
+    }
+  }
 }
 
-const { getAllMenu, addOneMenu, getOneMenu } = MenuController;
+const {
+  getAllMenu, addOneMenu, getOneMenu, deleteOneMenu
+} = MenuController;
 
-export { getAllMenu, addOneMenu, getOneMenu };
+export {
+  getAllMenu, addOneMenu, getOneMenu, deleteOneMenu
+};
