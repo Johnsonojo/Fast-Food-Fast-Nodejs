@@ -24,6 +24,45 @@ class Authenticator {
   }
 
   /**
+   * @description - This method is responsible for creating new users
+   *
+   * @static
+   * @param {object} request - Request sent to the router
+   * @param {object} response - Response sent from the controller
+   * @param {object} next - callback function to transfer to the next method
+   * @param {object} userData - Object representing decoded data that made up the token
+   * @param {object} error - Object representing JWT error
+   *
+   * @returns {object} - object representing response message
+   *
+   * @memberof Authenticator
+   */
+  static verifyToken(request, response, next) {
+    const { token } = request.headers;
+    if (!token) {
+      return response.status(403).json({
+        status: 'Fail',
+        message: 'No token supplied, please login or signup'
+      });
+    }
+    return jwt.verify(token, secret, (error, userData) => {
+      if (error) {
+        if (error.message.includes('signature')) {
+          return response.status(403).json({
+            status: 'Fail',
+            message: 'Your input is not a JWT token'
+          });
+        }
+        return response.status(403).json({
+          message: error.message
+        });
+      }
+      request.userData = userData;
+      return next();
+    });
+  }
+
+  /**
    * @description - This method is responsible for authenticating a user
    * @static
    * @param {object} request -  Request sent to the router
@@ -34,7 +73,7 @@ class Authenticator {
    */
   static authenticateUser(request, response, next) {
     try {
-      const token = request.headers.authorization;
+      const { token } = request.headers;
       if (!token || token === '') {
         response.status(401).json({
           status: 'failure',
@@ -83,6 +122,10 @@ class Authenticator {
   }
 }
 
-const { generateToken, authenticateUser, authenticateAdmin } = Authenticator;
+const {
+  generateToken, authenticateUser, authenticateAdmin, verifyToken
+} = Authenticator;
 
-export { generateToken, authenticateUser, authenticateAdmin };
+export {
+  generateToken, authenticateUser, authenticateAdmin, verifyToken
+};
