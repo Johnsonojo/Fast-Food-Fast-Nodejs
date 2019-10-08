@@ -119,12 +119,50 @@ class MenuController {
       response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
     }
   }
+
+  /**
+   * @description - This method handles editing a menu
+   * @static
+   * @param {object} request - Request sent to the router
+   * @param {object} response - Response sent from the controller
+   * @returns {object} - object representing response
+   * @memberof MenuController
+  */
+
+  static async editMenu(request, response) {
+    const { menuId } = request.params;
+    try {
+      const foundMenu = await Menu.findOne({
+        where: { id: menuId }
+      });
+      if (!foundMenu) {
+        return response.status(404).json({
+          status: 'Failure',
+          message: 'Menu not found'
+        });
+      }
+      await Menu.update(
+        {
+          foodName: request.body.foodName || foundMenu.foodName,
+          foodImage: request.body.foodImage || foundMenu.foodImage,
+          foodPrice: request.body.foodPrice || foundMenu.foodPrice
+        },
+        { where: { id: foundMenu.id } }
+      );
+      return response.status(200).json({
+        status: 'Success',
+        message: 'Updated Menu successfully'
+      });
+    } catch ({ errors: validationErrors }) {
+      response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
+    }
+  }
 }
 
 const {
-  getAllMenu, addOneMenu, getOneMenu, deleteOneMenu
+  getAllMenu, addOneMenu, getOneMenu, deleteOneMenu, editMenu
 } = MenuController;
 
 export {
-  getAllMenu, addOneMenu, getOneMenu, deleteOneMenu
+  getAllMenu, addOneMenu, getOneMenu, deleteOneMenu, editMenu
 };

@@ -1,6 +1,7 @@
 import models from '../db/models';
 
 const { User } = models;
+const errorMessage = 'Could not complete action at this time';
 
 /**
  * @description A class that represents user profile
@@ -40,8 +41,9 @@ class ProfileController {
       }
     } catch (error) {
       response.status(500).json({
-        status: 'Fail',
-        error: errorMessage
+        status: 'Failure',
+        message: errorMessage,
+        error: error.message
       });
     }
   }
@@ -64,13 +66,13 @@ class ProfileController {
       });
       if (!foundUser) {
         return response.status(404).json({
-          status: 'Fail',
+          status: 'Failure',
           message: 'Please sign up'
         });
       }
       const {
         username, address, image, phoneNumber
-      } = foundUser.dataValues;
+      } = foundUser;
 
       await User.update(
         {
@@ -79,7 +81,7 @@ class ProfileController {
           image: request.body.image || image,
           phoneNumber: request.body.phoneNumber || phoneNumber
         },
-        { where: { id: foundUser.dataValues.id } }
+        { where: { id: foundUser.id } }
       );
 
       return response.status(200).json({
@@ -89,7 +91,8 @@ class ProfileController {
     } catch (error) {
       response.status(500).json({
         status: 'Fail',
-        message: errorMessage
+        message: errorMessage,
+        error
       });
     }
   }
