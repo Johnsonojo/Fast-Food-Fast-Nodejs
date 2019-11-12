@@ -41,7 +41,7 @@ class Authenticator {
     const { token } = request.headers;
     if (!token) {
       return response.status(403).json({
-        status: 'Fail',
+        status: 'Failure',
         message: 'No token supplied, please login or signup'
       });
     }
@@ -49,7 +49,7 @@ class Authenticator {
       if (error) {
         if (error.message.includes('signature')) {
           return response.status(403).json({
-            status: 'Fail',
+            status: 'Failure',
             message: 'Your input is not a JWT token'
           });
         }
@@ -76,7 +76,7 @@ class Authenticator {
       const { token } = request.headers;
       if (!token || token === '') {
         response.status(401).json({
-          status: 'failure',
+          status: 'Failure',
           message: 'User not authenticated. No token provided'
         });
       }
@@ -85,7 +85,7 @@ class Authenticator {
       return next();
     } catch (error) {
       response.status(401).json({
-        status: 'failure',
+        status: 'Failure',
         message: 'User authentication failed'
       });
     }
@@ -114,7 +114,7 @@ class Authenticator {
       return next();
     } catch (error) {
       response.status(401).json({
-        status: 'failure',
+        status: 'Failure',
         message: 'User authentication failed',
         error
       });

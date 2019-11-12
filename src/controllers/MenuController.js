@@ -24,13 +24,13 @@ class MenuController {
     const menuCount = allMenu.count;
 
     if (menuCount < 1) {
-      response.status(404).json({
-        statue: 'Fail',
+      return response.status(404).json({
+        status: 'Failure',
         message: 'No menu found',
       });
     }
     return response.status(200).json({
-      statue: 'Success',
+      status: 'Success',
       message: 'All menu fetched successfully',
       allMenu
     });
@@ -59,7 +59,7 @@ class MenuController {
       });
     }
     return response.status(404).json({
-      statue: 'Fail',
+      status: 'Failure',
       message: 'Menu not found',
     });
   }
@@ -82,12 +82,12 @@ class MenuController {
         foodImage
       });
       return response.status(201).json({
-        status: 'success',
+        status: 'Success',
         message: 'Menu added successfully',
         newMenu
       });
     } catch ({ errors: validationErrors }) {
-      response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
+      response.status(409).send(errorResponse([...validationErrors.map((error) => error.message)]));
     }
   }
 
@@ -112,11 +112,11 @@ class MenuController {
         });
       }
       return response.status(404).json({
-        status: 'Fail',
+        status: 'Failure',
         message: 'Menu not found'
       });
     } catch ({ errors: validationErrors }) {
-      response.status(400).send(errorResponse([...validationErrors.map((error) => error.message)]));
+      response.status(409).send(errorResponse([...validationErrors.map((error) => error.message)]));
     }
   }
 

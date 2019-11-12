@@ -18,8 +18,8 @@ class MenuValidator {
 
     const errors = request.validationErrors();
     if (errors) {
-      return response.status(400).json({
-        status: 'failure',
+      return response.status(409).json({
+        status: 'Failure',
         message: 'Menu validation not successful',
         data: errors
       });

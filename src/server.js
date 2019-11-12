@@ -11,8 +11,8 @@ const PORT = process.env.PORT || 3000;
 registerMiddlewares(app);
 
 app.get('/', (req, res) => res.status(200).json({
-  status: 'success',
-  message: 'welcome to fast food fast'
+  status: 'Success',
+  message: 'Welcome to fast food fast, a platform to order for food'
 }));
 
 app.use('/api', userRouter);

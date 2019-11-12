@@ -8,6 +8,7 @@ import {
 const profileRoute = express.Router();
 
 profileRoute.get('/user', verifyToken, getCurrentUser);
+// profileRoute.get('/users', verifyToken, getAllUserProfile);
 profileRoute.put('/user',
   verifyToken, checkUndefined,
   checkEmpty, checkLength,
