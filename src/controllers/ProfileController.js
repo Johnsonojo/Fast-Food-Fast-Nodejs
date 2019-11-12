@@ -96,6 +96,35 @@ class ProfileController {
       });
     }
   }
+
+
+  /**
+   * @description - This method gets the profile of all users
+   * @static
+   * @param {object} request - Request sent to the router
+   * @param {object} response - Response sent from the controller
+   * @returns {object} - object representing response
+   * @memberof ProfileController
+   */
+
+  // static async getAllUserProfile(request, response) {
+  //   const { payload } = request.userData;
+  //   const { username } = payload;
+  //   try {
+  //     let allProfile = User.findAll({
+  //       where: {
+  //         username: {
+  //           $notLike: `${username}`
+  //         }
+  //       },
+  //       attributes: [
+  //         'username', 'image'
+  //       ],
+  //     });
+  //   } catch (error) {
+
+  //   }
+  // }
 }
 
 

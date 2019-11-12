@@ -29,7 +29,11 @@ const user = {
   notAUser: {
     email: 'ordr@gmail.com',
     password: 'oiuyttfkyedr4',
-  }
+  },
+  seededAdmin: {
+    email: 'johnson@gmail.com',
+    password: 'johnson123',
+  },
 };
 
 export default user;

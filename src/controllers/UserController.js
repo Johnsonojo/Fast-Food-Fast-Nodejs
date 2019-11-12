@@ -74,7 +74,7 @@ class UserController {
       });
       if (!userFound) {
         return response.status(404).json({
-          status: 'Fail',
+          status: 'Failure',
           message: 'User not found'
         });
       }
@@ -82,7 +82,7 @@ class UserController {
 
       if (!checkPassword) {
         return response.status(401).json({
-          status: 'Fail',
+          status: 'Failure',
           message: 'Incorrect login credentials'
         });
       }
@@ -101,7 +101,7 @@ class UserController {
       }
     } catch (error) {
       response.status(500).json({
-        status: 'Fail',
+        status: 'Failure',
         error: error.message
       });
     }

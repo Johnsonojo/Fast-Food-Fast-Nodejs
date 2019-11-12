@@ -3,20 +3,14 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const dialect = 'postgres';
-const { LOGGING } = process.env;
-
 module.exports = {
   development: {
-    use_env_variable: 'DATABASE_URL',
-    dialect
+    url: process.env.DATABASE_URL,
   },
   test: {
-    use_env_variable: 'DATABASE_URL_TEST',
-    logging: !!(LOGGING === 'true'),
-    dialect
+    url: process.env.DATABASE_URL_TEST,
   },
   production: {
-    use_env_variable: 'DATABASE_URL'
+    url: process.env.DATABASE_URL,
   }
 };
